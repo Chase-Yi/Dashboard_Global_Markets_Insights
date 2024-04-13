@@ -11,4 +11,5 @@ if __name__ == "__main__":
 
     latest_stock_market_news_df = data_collection_for_news()
     print(latest_stock_market_news_df)
+    print("test")
 
