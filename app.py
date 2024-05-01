@@ -3,6 +3,7 @@ from functions import YahooFinanceNewsScraper
 from functions import YahooFinanceData
 
 if __name__ == "__main__":
+
     def get_data_with_retry():
         max_retries = 3
         retries = 0
