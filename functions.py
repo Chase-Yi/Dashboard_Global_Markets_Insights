@@ -155,9 +155,3 @@ class YahooFinanceData:
         stock_recommendation_trend_df = pd.concat(recommendation_trend_list, axis='index').reset_index(drop=True)
         return stock_recommendation_trend_df
 
-########################################################################################################################
-# Macroeconomic indicators~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-class WorldBankData:
-    print("WorldBankData")
-
-
