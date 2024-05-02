@@ -117,7 +117,6 @@ class YahooFinanceData:
             each_etf = Ticker(each_etf_ticker)
             each_etf_top_holdings = each_etf.fund_top_holdings
             etfs_top_holdings.append(each_etf_top_holdings)
-
         etfs_top_holdings_df = pd.concat(etfs_top_holdings, axis='index')
         etfs_top_holdings_df.index.names = ['etf_symbol', 'holdingRanking']
         etfs_top_holdings_df.rename(columns={'symbol': 'holdingSymbol'}, inplace=True)
@@ -125,11 +124,9 @@ class YahooFinanceData:
         etfs_top_holdings_df['holdingRanking'] = etfs_top_holdings_df['holdingRanking'] + 1
         etfs_top_holdings_df = pd.merge(etfs_top_holdings_df, self.etf_info_df, on='etf_symbol', how='left')
         etfs_top_holdings_df = etfs_top_holdings_df[['etf_symbol', 'etf_name', 'holdingRanking', 'holdingSymbol', 'holdingName', 'holdingPercent']]
-
         stock_ticker_name = etfs_top_holdings_df[['holdingSymbol', 'holdingName']]
         stock_ticker_name.columns = ['stock_ticker', 'stock_name']
         stock_ticker_name = stock_ticker_name.drop_duplicates(subset='stock_ticker', keep='first')
-
         return etfs_top_holdings_df,stock_ticker_name
 
     def get_stock_hist(self,stock_ticker_name):
@@ -144,6 +141,19 @@ class YahooFinanceData:
         stocks_hist = pd.merge(stocks_hist, stock_ticker_name.rename(columns={'stock_ticker': 'Ticker', 'stock_name': 'Name'}), on='Ticker', how='left')
         stocks_hist = stocks_hist[['Date', 'Ticker', 'Name', 'Close', 'Volume']]
         return stocks_hist
+
+    def get_stock_recommendation_trend(self,stock_ticker_name):
+        stock_ticker_list = stock_ticker_name['stock_ticker'].unique().tolist()
+        recommendation_trend_list = []
+        for each_stock_ticker in stock_ticker_list:
+            each_stock = Ticker(each_stock_ticker)
+            recommendation_trend = each_stock.recommendation_trend
+            if not recommendation_trend.empty:
+                recommendation_trend.index.names = ['stock_ticker', 'row']
+                recommendation_trend = recommendation_trend.reset_index().drop(columns='row')
+                recommendation_trend_list.append(recommendation_trend)
+        stock_recommendation_trend_df = pd.concat(recommendation_trend_list, axis='index').reset_index(drop=True)
+        return stock_recommendation_trend_df
 
 ########################################################################################################################
 # Macroeconomic indicators~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
