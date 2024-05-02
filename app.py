@@ -73,8 +73,9 @@ if __name__ == "__main__":
                 etf_sector_weightings = yahoo_data.get_etf_sector_weightings()
                 etf_top_holdings, stock_ticker_name = yahoo_data.get_etf_top_holdings()
                 stock_hist = yahoo_data.get_stock_hist(stock_ticker_name)
+                stock_recommendation_trend_df = yahoo_data.get_stock_recommendation_trend(stock_ticker_name)
 
-                return latest_stock_market_news_df,index_hist,etf_hist,index_etf_info,etf_sector_weightings,etf_top_holdings,stock_ticker_name,stock_hist
+                return latest_stock_market_news_df,index_hist,etf_hist,index_etf_info,etf_sector_weightings,etf_top_holdings,stock_ticker_name,stock_hist,stock_recommendation_trend_df
 
                 break
 
@@ -87,9 +88,7 @@ if __name__ == "__main__":
         else:
             print("Failed to retrieve data after max retries.")
 
-    latest_stock_market_news_df,index_hist,etf_hist,index_etf_info,etf_sector_weightings,etf_top_holdings,stock_ticker_name,stock_hist = get_data_with_retry()
+    latest_stock_market_news_df,index_hist,etf_hist,index_etf_info,etf_sector_weightings,etf_top_holdings,stock_ticker_name,stock_hist,stock_recommendation_trend_df = get_data_with_retry()
 
     print("test")
-
-
 
