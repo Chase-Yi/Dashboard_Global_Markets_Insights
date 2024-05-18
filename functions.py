@@ -105,9 +105,9 @@ class YahooFinanceData:
         etfs_sector_weightings.rename(columns={'index': 'etf_symbol'}, inplace=True)
         etfs_sector_weightings = pd.merge(etfs_sector_weightings, self.etf_info_df, on='etf_symbol', how='left')
         etfs_sector_weightings = etfs_sector_weightings[['etf_symbol', 'etf_name', 'realestate', 'consumer_cyclical',
-                                                         'basic_materials', 'consumer_defensive', 'technology',
-                                                         'communication_services', 'financial_services', 'utilities',
-                                                         'industrials', 'energy', 'healthcare']]
+        'basic_materials', 'consumer_defensive', 'technology',
+        'communication_services', 'financial_services', 'utilities',
+        'industrials', 'energy', 'healthcare']]
         return etfs_sector_weightings
 
     def get_etf_top_holdings(self):
