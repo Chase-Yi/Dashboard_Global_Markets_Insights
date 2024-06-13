@@ -232,7 +232,6 @@ if __name__ == "__main__":
 
         app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY, dbc.icons.BOOTSTRAP,
             "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates@V1.0.2/dbc.min.css"])
-        server = app.server
 
         items = []
         for each_name in index_etf_names['Name'].unique().tolist():
