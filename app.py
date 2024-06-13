@@ -226,14 +226,13 @@ stock_recommendation_trend_df_1m_url = stock_recommendation_trend_df_1m_url.rena
                                 {'stock_ticker_url':'stock_ticker'})
 
 ########################################################################################################################
-
 if __name__ == "__main__":
 
-    def app_run(run=False):
         load_figure_template("darkly")
 
         app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY, dbc.icons.BOOTSTRAP,
             "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates@V1.0.2/dbc.min.css"])
+        server = app.server
 
         items = []
         for each_name in index_etf_names['Name'].unique().tolist():
@@ -246,10 +245,10 @@ if __name__ == "__main__":
             double_items.append(each_index+'  {VS}  '+each_etf)
 
         min_date = close_hist_pivot.index[1]
-        max_date = close_hist_pivot.index[-1]
+        max_date = close_hist_pivot.index[-2]
 
         min_date_etf = etf_return_hist_pivot.index[1]
-        max_date_etf = etf_return_hist_pivot.index[-1]
+        max_date_etf = etf_return_hist_pivot.index[-2]
 
         news = []
         for each_news_title in latest_stock_market_news_df['News Title'].unique().tolist():
@@ -668,7 +667,8 @@ if __name__ == "__main__":
             index_indicator_df = each_indicator_df(bmk_close,bmk_ret,bmk_ret,available_start_date,available_end_date)
             etf_index_indicators = pd.concat([etf_indicator_df,index_indicator_df],axis='columns')
             etf_index_indicators = etf_index_indicators.loc[:,~etf_index_indicators.columns.duplicated()]
-            etf_index_indicators.iloc[:,1:] = etf_index_indicators.iloc[:,1:].astype(str) + '%'
+            etf_index_indicators = etf_index_indicators.astype(str)
+            etf_index_indicators.iloc[:,1:] = etf_index_indicators.iloc[:,1:] + '%'
 
             return fig_etf_index, etf_index_indicators.to_dict('records')
 
@@ -768,11 +768,4 @@ if __name__ == "__main__":
             dynamic_link = f"[External Link]({news_url})"
             return [html.I(className="bi bi-newspaper me-2"),selected_title], news_content, dynamic_link
 
-        if run == True:
-            app.run_server()
-
-    app_run(run=True)
-
-'''
-
-'''
+        app.run_server(debug=False)
