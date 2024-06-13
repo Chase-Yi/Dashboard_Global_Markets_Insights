@@ -83,14 +83,16 @@ class YahooFinanceData:
     def get_index_hist(self):
         index_tickers = self.index_info_df['index_symbol'].tolist()
         index_hist = self._get_hist_data(index_tickers)
-        index_hist = pd.merge(index_hist, self.index_info_df.rename(columns={'index_symbol': 'Ticker', 'index_name': 'Name'}), on='Ticker', how='left')
+        index_hist = pd.merge(index_hist, self.index_info_df.rename(columns={'index_symbol': 'Ticker',
+                                'index_name': 'Name'}), on='Ticker', how='left')
         index_hist = index_hist[['Date', 'Ticker', 'Name', 'Close', 'Volume']]
         return index_hist
 
     def get_etf_hist(self):
         etf_tickers = self.etf_info_df['etf_symbol'].tolist()
         etf_hist = self._get_hist_data(etf_tickers)
-        etf_hist = pd.merge(etf_hist, self.etf_info_df.rename(columns={'etf_symbol': 'Ticker', 'etf_name': 'Name'}), on='Ticker', how='left')
+        etf_hist = pd.merge(etf_hist, self.etf_info_df.rename(columns={'etf_symbol': 'Ticker', 'etf_name': 'Name'}),
+                                on='Ticker', how='left')
         etf_hist = etf_hist[['Date', 'Ticker', 'Name', 'Close', 'Volume']]
         return etf_hist
 
@@ -123,7 +125,8 @@ class YahooFinanceData:
         etfs_top_holdings_df = etfs_top_holdings_df.reset_index()
         etfs_top_holdings_df['holdingRanking'] = etfs_top_holdings_df['holdingRanking'] + 1
         etfs_top_holdings_df = pd.merge(etfs_top_holdings_df, self.etf_info_df, on='etf_symbol', how='left')
-        etfs_top_holdings_df = etfs_top_holdings_df[['etf_symbol', 'etf_name', 'holdingRanking', 'holdingSymbol', 'holdingName', 'holdingPercent']]
+        etfs_top_holdings_df = etfs_top_holdings_df[['etf_symbol', 'etf_name', 'holdingRanking', 'holdingSymbol',
+                                                    'holdingName', 'holdingPercent']]
         stock_ticker_name = etfs_top_holdings_df[['holdingSymbol', 'holdingName']]
         stock_ticker_name.columns = ['stock_ticker', 'stock_name']
         stock_ticker_name = stock_ticker_name.drop_duplicates(subset='stock_ticker', keep='first')
@@ -138,7 +141,8 @@ class YahooFinanceData:
         stocks_hist = stocks_hist.sort_values(by=['Ticker', 'Date'])
         stocks_hist['Date'] = stocks_hist['Date'].dt.strftime('%Y-%m-%d')
         stocks_hist = stocks_hist[['Date', 'Ticker', 'Close', 'Volume']]
-        stocks_hist = pd.merge(stocks_hist, stock_ticker_name.rename(columns={'stock_ticker': 'Ticker', 'stock_name': 'Name'}), on='Ticker', how='left')
+        stocks_hist = pd.merge(stocks_hist, stock_ticker_name.rename(columns={'stock_ticker': 'Ticker',
+                                                    'stock_name': 'Name'}), on='Ticker', how='left')
         stocks_hist = stocks_hist[['Date', 'Ticker', 'Name', 'Close', 'Volume']]
         return stocks_hist
 
