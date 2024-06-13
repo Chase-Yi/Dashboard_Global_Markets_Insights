@@ -74,7 +74,8 @@ class YahooFinanceData:
     def _get_hist_data(self, tickers):
         yf_tickers = yf.Tickers(tickers)
         hist_data = yf_tickers.history(start=self.start_date, end=self.end_date, period='max')
-        hist_data = hist_data.stack(level=1).rename_axis(['Date', 'Ticker']).reset_index(level=1)
+        hist_data = hist_data.stack(level=1,
+                    future_stack=True).rename_axis(['Date', 'Ticker']).dropna(how='all').reset_index(level=1)
         hist_data = hist_data.reset_index()
         hist_data = hist_data.sort_values(by=['Ticker', 'Date'])
         hist_data['Date'] = hist_data['Date'].dt.strftime('%Y-%m-%d')
@@ -136,7 +137,8 @@ class YahooFinanceData:
         stock_ticker_list = stock_ticker_name['stock_ticker'].unique().tolist()
         stocks = yf.Tickers(stock_ticker_list)
         stocks_hist = stocks.history(start=self.start_date, end=self.end_date, period='max')
-        stocks_hist = stocks_hist.stack(level=1).rename_axis(['Date', 'Ticker']).reset_index(level=1)
+        stocks_hist = stocks_hist.stack(level=1,
+                    future_stack=True).rename_axis(['Date', 'Ticker']).dropna(how='all').reset_index(level=1)
         stocks_hist = stocks_hist.reset_index()
         stocks_hist = stocks_hist.sort_values(by=['Ticker', 'Date'])
         stocks_hist['Date'] = stocks_hist['Date'].dt.strftime('%Y-%m-%d')
