@@ -348,11 +348,11 @@ app.layout = html.Div([
                             page_size=25,
                             cell_selectable=False),
 
-        html.Br(),
-        html.Div([
-            html.Button("Download Excel", id="btn_xlsx"),
-            dcc.Download(id="download-dataframe-xlsx")],
-            style={'textAlign': 'center', 'margin': 'auto'}),
+        # html.Br(),
+        # html.Div([
+        #     html.Button("Download Excel", id="btn_xlsx"),
+        #     dcc.Download(id="download-dataframe-xlsx")],
+        #     style={'textAlign': 'center', 'margin': 'auto'}),
 
         html.Br(),
         html.Label(['ETF & Index - NAV Comparison - Starting from 1'],
@@ -558,11 +558,11 @@ def Update_graph_CLOSE(item_name):
     return fig_close, fig_volume
 
 
-@app.callback(Output("download-dataframe-xlsx", "data"),
-            Input("btn_xlsx", "n_clicks"), prevent_initial_call=True)
-def Func(n_clicks):
-    return dcc.send_data_frame(close_volume_hist_with_ticker.to_excel, sheet_name="ETF_Index", index=False,
-                            filename="ETF_Index_Data.xlsx")
+# @app.callback(Output("download-dataframe-xlsx", "data"),
+#             Input("btn_xlsx", "n_clicks"), prevent_initial_call=True)
+# def Func(n_clicks):
+#     return dcc.send_data_frame(close_volume_hist_with_ticker.to_excel, sheet_name="ETF_Index", index=False,
+#                             filename="ETF_Index_Data.xlsx")
 
 
 @app.callback([Output('Graph1', 'figure'),
@@ -780,6 +780,7 @@ def Update_card(selected_title):
     dynamic_link = f"[External Link]({news_url})"
     return [html.I(className="bi bi-newspaper me-2"), selected_title], news_content, dynamic_link
 
+print('')
 
 if __name__ == "__main__":
 
