@@ -780,7 +780,6 @@ def Update_card(selected_title):
     dynamic_link = f"[External Link]({news_url})"
     return [html.I(className="bi bi-newspaper me-2"), selected_title], news_content, dynamic_link
 
-print('')
 
 if __name__ == "__main__":
 
